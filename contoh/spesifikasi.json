@@ -1,0 +1,10 @@
+{
+  "nama": "Config Demo Tia",
+  "payload": "GET / HTTP/1.1[crlf]Host: [host][crlf]User-Agent: [ua][crlf]Connection: Keep-Alive[crlf][crlf]",
+  "ssh": "sg.example.com:443@demo_user:rahasia123",
+  "sni": "sg.example.com",
+  "mode_koneksi": "0",
+  "masa_berlaku": "lifeTime",
+  "catatan": "<p>Contoh catatan config.</p>",
+  "lock": "lock_payload_unlock_server"
+}
