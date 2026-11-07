@@ -147,6 +147,26 @@ def test_write_read(tmpdir=None):
         return ok
 
 
+def test_default_note():
+    """Catatan tidak diatur -> catatan bawaan; "" -> kosong; diisi -> dipakai."""
+    note = builder.default_note()
+    ok = bool(note)
+    for fmt in ("modern", "legacy"):
+        for kw, want, flag in (
+            ({}, note, "true"),
+            ({"catatan": ""}, "", "false"),
+            ({"catatan": "<p>x</p>"}, "<p>x</p>", "true"),
+        ):
+            if fmt == "modern":
+                back = codec.decode_bytes(codec.encode_config(builder.build(nama="N", **kw)))
+            else:
+                from . import legacy
+                back = legacy.decode_bytes(legacy.encode_config(builder.build_legacy(nama="N", **kw)))
+            ok = ok and back.get(6) == want and back.get(5) == flag
+    print(f"catatan bawaan ({len(note)} karakter): {'OK' if ok else 'GAGAL'}")
+    return ok
+
+
 def run_all(verbose: bool = False) -> bool:
     results = [
         test_roundtrip(verbose),
@@ -154,6 +174,7 @@ def run_all(verbose: bool = False) -> bool:
         test_build_all_locks(),
         test_build_matches_real_profile(),
         test_write_read(),
+        test_default_note(),
     ]
     print("=" * 46)
     print("HASIL:", "SEMUA LULUS" if all(results) else "ADA YANG GAGAL")

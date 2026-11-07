@@ -14,6 +14,18 @@ import os
 from collections import OrderedDict
 
 from . import core
+
+_NOTE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "default_note.html")
+
+
+def default_note() -> str:
+    """Catatan bawaan (hcmaker/default_note.html), dipakai bila catatan tidak diatur."""
+    try:
+        with open(_NOTE_PATH, encoding="utf-8") as stream:
+            return stream.read()
+    except OSError:
+        return ""
+
 from .codec import (
     ENCRYPTED_COLUMNS,
     JKL_COLUMNS,
@@ -185,7 +197,7 @@ def build(
     sni: str = "",
     mode_koneksi: str = "0",
     masa_berlaku: str = "lifeTime",
-    catatan: str = "",
+    catatan: str | None = None,
     lock: str = "no_lock",
     unlock_remote_proxy: bool = False,
     block_root: bool = False,
@@ -205,6 +217,8 @@ def build(
     extra: dict | None = None,
 ) -> HcConfig:
     """Rakit HcConfig baru sesuai struktur keluaran aplikasi."""
+    if catatan is None:  # tidak diatur -> pakai catatan bawaan; "" = tanpa catatan
+        catatan = default_note()
     cfg = empty_config(build=build_target, ver_cfg=ver_cfg)
     cfg.b_plain = ver_cfg
 

@@ -62,6 +62,10 @@ Contoh `spesifikasi.json`:
 }
 ```
 
+> **Catatan bawaan:** jika `catatan` tidak diisi, deskripsi otomatis memakai isi
+> `hcmaker/default_note.html` (edit berkas itu untuk mengganti default).
+> Isi `"catatan": ""` bila ingin config tanpa catatan.
+
 Kunci lain yang didukung: `remote_proxy`, `unlock_remote_proxy`, `block_root`,
 `hanya_data_seluler`, `hwid`, `password`, `v2ray_json`, `openvpn_config`,
 `openvpn_kredensial`, `slowdns_server`, `slowdns_public_key`, `dns_resolver`,
